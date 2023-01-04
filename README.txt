@@ -1,0 +1,241 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "4e2989a8-2f5a-4443-b622-483a4912e030",
+   "metadata": {},
+   "source": [
+    " # Exploration of Heart disease dataset"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0884af98-fc1f-44c0-81e1-1d7fb758f027",
+   "metadata": {},
+   "source": [
+    "This notebook contains code that explores and investigates a dataset that contains multiple variables related to heart disease. It consists of data from 1024 individuals across Cleveland, Hungary, Switzerland, and Long Beach. Full description of variables is as follows:\n",
+    "\n",
+    "1.***Age** <br>\n",
+    "2.**Sex** (0=female, 1=male)<br>\n",
+    "3.**CP**- Chest pain type (0-Typical angina, 1-Atypical angina, 2-non-anginal pain, 3-asymptomatic)<br>\n",
+    "4.**Trestbps**- Resting blood pressure<br>\n",
+    "5.**Chol**- Serum cholesterol (mg/dl)<br>\n",
+    "6.**Fbs**- Fasting blood sugar (>120mg/dl)<br>\n",
+    "7.**Restecg**- Resting electro cardiac graphs (values 0,1,2)<br>\n",
+    "8.**Talach**- Maximum heart rate achieved<br>\n",
+    "9.**Exang**- Exercise induced angina<br>\n",
+    "10.**Oldpeak**=ST depression induced by exercise relative to rest<br>\n",
+    "11.**Slope**- The slop of the peak exercise ST segment <br>\n",
+    "12.**Ca**- Number of major vessels (0-3)<br>\n",
+    "13.**Thal** -(0- normal, 1=fixed defect, 2-reversable defect)<br>\n",
+    "14.**Target**- Presence of heart disease (0-no disease, 1-disease present)<br>\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b8f9d91d-11c3-439c-9a53-c011d47aa76b",
+   "metadata": {},
+   "source": [
+    "**Raw dataset can be found at: https://raw.githubusercontent.com/ejc238/Heart-Disease-analysis-/main/heart.csv**"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9a1c9f73-43cf-4cde-b980-71e1684235d0",
+   "metadata": {},
+   "source": [
+    "1. To read in the data follow code below:\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "2e5b8b95-4af4-4af7-a659-66502d92e49f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>age</th>\n",
+       "      <th>sex</th>\n",
+       "      <th>cp</th>\n",
+       "      <th>trestbps</th>\n",
+       "      <th>chol</th>\n",
+       "      <th>fbs</th>\n",
+       "      <th>restecg</th>\n",
+       "      <th>thalach</th>\n",
+       "      <th>exang</th>\n",
+       "      <th>oldpeak</th>\n",
+       "      <th>slope</th>\n",
+       "      <th>ca</th>\n",
+       "      <th>thal</th>\n",
+       "      <th>target</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>52</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>125</td>\n",
+       "      <td>212</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>168</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>2</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>53</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>140</td>\n",
+       "      <td>203</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>155</td>\n",
+       "      <td>1</td>\n",
+       "      <td>3.1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>70</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>145</td>\n",
+       "      <td>174</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>125</td>\n",
+       "      <td>1</td>\n",
+       "      <td>2.6</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>3</th>\n",
+       "      <td>61</td>\n",
+       "      <td>1</td>\n",
+       "      <td>0</td>\n",
+       "      <td>148</td>\n",
+       "      <td>203</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1</td>\n",
+       "      <td>161</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0.0</td>\n",
+       "      <td>2</td>\n",
+       "      <td>1</td>\n",
+       "      <td>3</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>4</th>\n",
+       "      <td>62</td>\n",
+       "      <td>0</td>\n",
+       "      <td>0</td>\n",
+       "      <td>138</td>\n",
+       "      <td>294</td>\n",
+       "      <td>1</td>\n",
+       "      <td>1</td>\n",
+       "      <td>106</td>\n",
+       "      <td>0</td>\n",
+       "      <td>1.9</td>\n",
+       "      <td>1</td>\n",
+       "      <td>3</td>\n",
+       "      <td>2</td>\n",
+       "      <td>0</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "   age  sex  cp  trestbps  chol  fbs  restecg  thalach  exang  oldpeak  slope  \\\n",
+       "0   52    1   0       125   212    0        1      168      0      1.0      2   \n",
+       "1   53    1   0       140   203    1        0      155      1      3.1      0   \n",
+       "2   70    1   0       145   174    0        1      125      1      2.6      0   \n",
+       "3   61    1   0       148   203    0        1      161      0      0.0      2   \n",
+       "4   62    0   0       138   294    1        1      106      0      1.9      1   \n",
+       "\n",
+       "   ca  thal  target  \n",
+       "0   2     3       0  \n",
+       "1   0     3       0  \n",
+       "2   0     3       0  \n",
+       "3   1     3       0  \n",
+       "4   3     2       0  "
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "import pandas as pd \n",
+    "DF=pd.read_csv('https://raw.githubusercontent.com/ejc238/Heart-Disease-analysis-/main/heart.csv')\n",
+    "DF.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "79a48105-a44f-45ba-b305-67697bc82b25",
+   "metadata": {},
+   "source": [
+    "2. in order to manipulate the logistic regression model, the variables data can be changed to any individual (line 66 of notebook)."
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.13"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
